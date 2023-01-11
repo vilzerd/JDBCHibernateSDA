@@ -13,6 +13,22 @@ public class Movie {
         this.rate = rate;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public int getPremiereYear() {
+        return premiereYear;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +

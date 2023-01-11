@@ -1,21 +1,17 @@
 package movies;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-    //  method should operate on one level of abstraction
+//  method should operate on one level of abstraction
 
     private boolean running = true;
-    private List<Movie> movies = new ArrayList<>();
     private Connection connection;
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/books";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/movies";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "PASSWORD";
     private static final String CREATE_MOVIES_TABLE_SQL = """
@@ -24,26 +20,23 @@ public class Menu {
             title varchar(255) NOT NULL,
             premiere_year int NOT NULL,
             genre varchar(255) NOT NULL,
-            rate int 
+            rate int
             );""";
-
     public Menu() {
         try {
             initConnection();
-            Statement statement = connection.createStatement();
-            statement.execute(CREATE_MOVIES_TABLE_SQL);
+            initTable();
         } catch (SQLException e) {
             System.out.println("Database failed");
         }
     }
-
     private void initConnection() throws SQLException {
         connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
     }
 
     private void initTable() throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.execute(CREATE_MOVIES_TABLE_SQL);
+        PreparedStatement statement = connection.prepareStatement(CREATE_MOVIES_TABLE_SQL);
+        statement.execute();
     }
 
     public void startMenu() {
@@ -51,13 +44,11 @@ public class Menu {
             menuAction();
         } while (running);
     }
-
     private void menuAction() {
         showOptions();
-        int input = readOption();
+        int input = readDecision();
         executeOption(input);
     }
-
     private void showOptions() {
         System.out.println("""
                 Choose one from the options:
@@ -65,27 +56,30 @@ public class Menu {
                 2. Display movies
                 3. Finish""");
     }
-
-    private int readOption() {
+    private int readDecision() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
 
-    private void executeOption(int input) {
-        switch (input) {
-            case 1:
-                addMovie();
-                break;
-            case 2:
-                displayMovies();
-                break;
-            case 3:
-                finish();
-                break;
+    private void executeOption(int input) { //TODO ROZDZIELIĆ NA 2 METODY
+        try {
+            switch (input) {
+                case 1:
+                    addMovie();
+                    break;
+                case 2:
+                    displayMovies();
+                    break;
+                case 3:
+                    finish();
+                    break;
+            }
+        }catch (SQLException e){
+            System.out.println("Database query error!");
         }
     }
 
-    private void addMovie() {
+    private void addMovie() throws SQLException{
         Movie movie = readMovieData();
         save(movie);
     }
@@ -106,23 +100,27 @@ public class Menu {
         String genre = scanner.nextLine();
         System.out.print("Enter the movie rating (1-10):");
         int rate = scanner.nextInt();
-
         return new Movie(title, premiereYear, genre, rate);
     }
 
     private void displayMovies() {
-        for (Movie movie : movies) {
-            System.out.println(movie);
-        }
+//        for (Movie movie : movies) {
+//            System.out.println(movie);
+//        }
     }
 
-    private void save(Movie movie) {
-        movies.add(movie);
+    private void save(Movie movie) throws SQLException {
+        String sql = "INSERT INTO movies VALUES (0,?,?,?,?);";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, movie.getTitle());
+        statement.setInt(2, movie.getPremiereYear());
+        statement.setString(3, movie.getGenre());
+        statement.setInt(4, movie.getRate());
+        statement.execute();
     }
 
     private void finish() {
         System.out.println("End");
         running = false;
     }
-
 }
