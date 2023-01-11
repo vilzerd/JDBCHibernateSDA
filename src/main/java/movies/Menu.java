@@ -1,5 +1,8 @@
 package movies;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,6 +12,15 @@ public class Menu {
 
     private boolean running = true;
     private List<Movie> movies = new ArrayList<>();
+    private Connection connection;
+
+    public Menu() {
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/books", "root", "PASSWORD");
+        } catch (SQLException e) {
+            System.out.println("Database failed");
+        }
+    }
 
     public void startMenu() {
         do {
