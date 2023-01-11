@@ -3,9 +3,17 @@ package movies;
 import java.util.Scanner;
 
 public class Menu {
-
     //  method should operate on one level of abstraction
+
+    private boolean running = true;
+
     public void startMenu() {
+        do {
+            menuAction();
+        } while (running);
+    }
+
+    private void menuAction() {
         showOptions();
         int input = readOption();
         executeOption(input);
@@ -34,6 +42,7 @@ public class Menu {
                 break;
             case 3:
                 System.out.println("End");
+                running = false;
                 break;
         }
     }
