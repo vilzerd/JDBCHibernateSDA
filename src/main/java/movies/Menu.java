@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-//menu
+
 public class Menu {
     private boolean running = true;
     private Connection connection;
@@ -45,7 +45,7 @@ public class Menu {
     private void menuAction() {
         showOptions();
         int input = readDecision();
-        executeOption(input);
+        handleOption(input);
     }
     private void showOptions() {
         System.out.println("""
@@ -59,23 +59,27 @@ public class Menu {
         return scanner.nextInt();
     }
 
-    private void executeOption(int input) { //TODO ROZDZIELIĆ NA 2 METODY
+    private void handleOption(int input) {
         try {
-            switch (input) {
-                case 1:
-                    addMovie();
-                    break;
-                case 2:
-                    displayMovies();
-                    break;
-                case 3:
-                    finish();
-                    break;
-            }
+            executeOption(input);
         } catch (SQLException e) {
             System.out.println("Database query error");
         }
 
+    }
+
+    private void executeOption(int input) throws SQLException {
+        switch (input) {
+            case 1:
+                addMovie();
+                break;
+            case 2:
+                displayMovies();
+                break;
+            case 3:
+                finish();
+                break;
+        }
     }
 
     private void addMovie() throws SQLException{
@@ -93,13 +97,22 @@ public class Menu {
             System.out.println("Unreal release date given. Should be a range: 1895 - 2025.");
             return readMovieData();
         }
-//        scanner = new Scanner(System.in) can be use instead of line 57. as well
+//      scanner = new Scanner(System.in) can be use instead of line 57. as well
         scanner.nextLine();
         System.out.print("Enter the genre of movie:");
         String genre = scanner.nextLine();
         System.out.print("Enter the movie rating (1-10):");
         int rate = scanner.nextInt();
         return new Movie(title, premiereYear, genre, rate);
+    }
+
+    private void save(Movie movie) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(INSERT_MOVIE_SQL);
+        statement.setString(1, movie.getTitle());
+        statement.setInt(2, movie.getPremiereYear());
+        statement.setString(3, movie.getGenre());
+        statement.setInt(4, movie.getRate());
+        statement.execute();
     }
 
     private void displayMovies() throws SQLException {
@@ -120,16 +133,6 @@ public class Menu {
             System.out.println(movie);
         }
     }
-
-    private void save(Movie movie) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(INSERT_MOVIE_SQL);
-        statement.setString(1, movie.getTitle());
-        statement.setInt(2, movie.getPremiereYear());
-        statement.setString(3, movie.getGenre());
-        statement.setInt(4, movie.getRate());
-        statement.execute();
-    }
-
 
     private void finish() {
         System.out.println("End");
