@@ -10,7 +10,7 @@ public class MoviesApp {
 //        Menu.startMenu(); - if method startMenu() in class Menu were static,
 //        which it isn't, then I have to create the object Menu. It's example of OOP.
 
-        Menu menu = new Menu();
-        menu.startMenu();
+        Controller controller = new Controller();
+        controller.startMenu();
     }
 }
