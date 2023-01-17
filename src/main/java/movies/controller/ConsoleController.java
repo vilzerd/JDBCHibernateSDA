@@ -1,12 +1,15 @@
-package movies;
+package movies.controller;
 
 //This class allows you to interact with the application (entering data, presenting results).
+
+import movies.model.Movie;
+import movies.service.MovieService;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Controller {
+public class ConsoleController {
 
     private boolean running = true;
 //    only one service on controller (one private field!)

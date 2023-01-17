@@ -5,12 +5,14 @@ package movies;
 //closed to modifications
 //this class is responsible for starting
 
-public class MoviesApp {
+import movies.controller.ConsoleController;
+
+public class ConsoleMoviesApp {
     public static void main(String[] args) {
 //        Menu.startMenu(); - if method startMenu() in class Menu were static,
 //        which it isn't, then I have to create the object Menu. It's example of OOP.
 
-        Controller controller = new Controller();
-        controller.startMenu();
+        ConsoleController consoleController = new ConsoleController();
+        consoleController.startMenu();
     }
 }

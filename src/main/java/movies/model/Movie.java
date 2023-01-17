@@ -1,4 +1,4 @@
-package movies;
+package movies.model;
 
 public class Movie {
     private int id;
@@ -41,7 +41,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return  "id=" + id +
+        return  "Movie{id=" + id +
                 ", title='" + title + '\'' +
                 ", premiereYear=" + premiereYear +
                 ", genre='" + genre + '\'' +
