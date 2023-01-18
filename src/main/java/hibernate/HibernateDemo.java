@@ -10,11 +10,11 @@ public class HibernateDemo {
     public static void main(String[] args) {
 
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(hibernate.Book.class);
+        configuration.addAnnotatedClass(Book.class);
         configuration.configure("hibernate.cfg.xml");
         //SessionFactory
         SessionFactory sessionFactory = configuration.buildSessionFactory(); //SessionFactory to odpowiednik Connection z JDBC
-        //SessionFactory - ciężki obiekt, potrzebny tylko jeden na całą aplikację
+        //SessionFactory - dużo zajmujący obiekt, potrzebny tylko jeden na całą aplikację
 
         //ORM - Object-Relation Mapper
         Book book = new Book("DDD Kompendium wiedzy", "Vaughn Vernon", 130);
