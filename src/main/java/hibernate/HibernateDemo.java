@@ -1,6 +1,5 @@
 package hibernate;
 
-import books.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,7 +23,7 @@ public class HibernateDemo {
 //      musi być wskazana przy konfiguracji (addAnnotatedClass)
 //      musi być wskazane id adnotacją @Id
 //      musi mieć bezparametrowy konstruktor
-//      pamiętaj o otwarciu i zamknięciu tranzakcji oraz zamknięciu sesji
+//      pamiętaj o otwarciu i zamknięciu transakcji oraz zamknięciu sesji
 
 //      Crud:
 //      przygotowanie interakcji z bazą

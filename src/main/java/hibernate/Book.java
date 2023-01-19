@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "books")  //poprawa nazwy tabeli
+@Table(name = "jdbc")  //poprawa nazwy tabeli przez Hibernate,
                         //inaczej używa 'book'
 public class Book {
     @Id
@@ -35,10 +35,6 @@ public class Book {
 
     Book() {  //wymagany przez hibernate bezparametrowy konstruktor
 
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getTitle() {
