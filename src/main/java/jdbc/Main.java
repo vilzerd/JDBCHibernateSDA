@@ -1,14 +1,12 @@
 package jdbc;
 
-import jdbc.Book;
-
 import java.sql.*;
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
 //      You should only connect to the database once
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/books", "root", "PASSWORD");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/books", "root", "eskuelowiec");
 
 //      Create jdbc table in MySQL
         String createTableSql = """
@@ -72,6 +70,5 @@ public class Main {
         preparedStatement.setString(2, "Robert Martin");
         preparedStatement.setInt(3, 350);
         preparedStatement.execute();
-
     }
 }

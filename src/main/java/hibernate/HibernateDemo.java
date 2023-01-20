@@ -9,7 +9,7 @@ public class HibernateDemo {
     public static void main(String[] args) {
 
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(Book.class);
+        configuration.addAnnotatedClass(hibernate.Book.class);
         configuration.configure("hibernate.cfg.xml");
         //SessionFactory
         SessionFactory sessionFactory = configuration.buildSessionFactory(); //SessionFactory to odpowiednik Connection z JDBC
@@ -36,9 +36,13 @@ public class HibernateDemo {
         session.close();
 
 //      cRud:
+        session = sessionFactory.openSession();
+        transaction = session.beginTransaction();
+        Book aBook = session.get(Book.class, 4);
+        transaction.commit();
+        session.close();
 
-
-
+        System.out.println(aBook);
 
         sessionFactory.close();
 //      należy zamknąć SessionFactory na koniec

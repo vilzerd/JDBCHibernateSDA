@@ -5,14 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "jdbc")  //poprawa nazwy tabeli przez Hibernate,
+@Table(name = "books")  //poprawa nazwy tabeli przez Hibernate,
                         //inaczej używa 'book'
 public class Book {
     @Id
-    @Column(name = "id")
-    private int id;
+    @Column(name = "id")  //@Column jest opcjonalne. Używamy gdy mielibyśmy niezgodności tzn. inaczej chcielibyśmy
+    private int id;       //nazwać w Javie, a inaczej w nazwie kolumn w DB.
     @Column(name = "title")
     private String title;
     @Column(name = "author")
