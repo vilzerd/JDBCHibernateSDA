@@ -92,5 +92,7 @@ public abstract class Controller {
     abstract int readInt(String message);
 
     abstract String readString(String message);
-
 }
+
+//WARSTWY:
+//CONTROLLER -> SERVICE -> REPOSITORY

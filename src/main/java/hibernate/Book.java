@@ -1,15 +1,13 @@
 package hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "books")  //poprawa nazwy tabeli przez Hibernate,
                         //inaczej używa 'book'
 public class Book {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")  //@Column jest opcjonalne. Używamy gdy mielibyśmy niezgodności tzn. inaczej chcielibyśmy
     private int id;       //nazwać w Javie, a inaczej w nazwie kolumn w DB.
     @Column(name = "title")

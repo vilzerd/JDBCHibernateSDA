@@ -1,4 +1,5 @@
 package movies.service;
+
 import movies.model.Movie;
 
 import java.sql.*;
