@@ -32,7 +32,8 @@ public class Book {
         this.pages = pages;
     }
 
-    Book() {  //wymagany przez hibernate bezparametrowy konstruktor
+    Book() {  //wymagany przez hibernate bezparametrowy konstruktor, potrzebny przy odtwarzaniu
+              //obiektów z bazy danych
 
     }
 
@@ -46,6 +47,10 @@ public class Book {
 
     public int getPages() {
         return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
     }
 
     @Override
