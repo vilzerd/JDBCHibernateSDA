@@ -1,5 +1,6 @@
 package movies.controller;
 
+import movies.exceptions.MovieServiceException;
 import movies.model.Movie;
 import movies.service.MovieService;
 
@@ -34,10 +35,12 @@ public abstract class Controller {
             executeOption(input);
         } catch (SQLException e) {
             showMessage("Database query error");
+        } catch (MovieServiceException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private void executeOption(int input) throws SQLException { //TODO dekompozycja!
+    private void executeOption(int input) throws SQLException, MovieServiceException {
         switch (input) {
             case 1:
                 addMovie();
@@ -51,7 +54,7 @@ public abstract class Controller {
         }
     }
 
-    private void addMovie() throws SQLException {
+    private void addMovie() throws SQLException, MovieServiceException {
         Movie movie = readMovieData();
         movieService.save(movie);
     }
@@ -64,10 +67,6 @@ public abstract class Controller {
     private Movie readMovieData() {
         String title = readString("Enter the title of movie:");
         int premiereYear = readInt("Enter release year of movie:");
-        if (premiereYear < 1895 || premiereYear > 2025) {
-           showMessage("Unreal release date given. Should be a range: 1895 - 2025.");
-            return readMovieData();
-        }
         String genre = readString("Enter the genre of movie:");
         int rate = readInt("Enter the movie rating (1-10):");
         return new Movie(title, premiereYear, genre, rate);

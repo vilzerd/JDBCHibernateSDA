@@ -10,7 +10,6 @@ public class MoviesApp {
     private static final String DEFAULT_MODE = GUI_MODE;
 
     public static void main(String[] args) {
-
         String mode = DEFAULT_MODE;
         if(args.length != 0) {
             mode = args[0];
