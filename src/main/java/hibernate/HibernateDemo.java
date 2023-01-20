@@ -32,9 +32,10 @@ public class HibernateDemo {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 //      nasze interakcje
-//      session.save(book);
+        session.save(book);
 //      zakończenie interakcji
         transaction.commit();
+//        session.flush();
         session.close();
 
 //      cRud:
@@ -44,7 +45,6 @@ public class HibernateDemo {
 //      konsola zwróci mi null. Jeżeli zamiast metody get(), użyję load() wyświetli się wyjątek ObjectNotFoundException
         Book aBook = session.get(Book.class, 4);
         System.out.println(aBook);
-
         transaction.commit();
         session.close();
 

@@ -1,8 +1,15 @@
 package movies.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "movies")
 public class Movie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
+    @Column(name = "premiere_year")
     private int premiereYear;
     private String genre;
     private int rate;
@@ -21,6 +28,10 @@ public class Movie {
         this.premiereYear = premiereYear;
         this.genre = genre;
         this.rate = rate;
+    }
+
+    private Movie() {
+
     }
 
     public String getTitle() {
