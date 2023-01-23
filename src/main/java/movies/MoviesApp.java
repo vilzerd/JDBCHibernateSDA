@@ -24,7 +24,7 @@ public class MoviesApp {
             controllerMode = args[0];
         }
         if (args.length == 2) {
-            repositoryMode = args[0];
+            repositoryMode = args[1];
         }
         try {
             executeProgram(controllerMode, repositoryMode);
