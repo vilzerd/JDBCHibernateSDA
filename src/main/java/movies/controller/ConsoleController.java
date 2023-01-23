@@ -2,10 +2,16 @@ package movies.controller;
 
 //This class allows you to interact with the application (entering data, presenting results).
 
+import movies.service.MovieService;
+
 import javax.swing.*;
 import java.util.Scanner;
 
 public class ConsoleController extends Controller {
+    public ConsoleController(MovieService movieService) {
+        super(movieService);
+    }
+
     void showMessage(String message) {
         System.out.println(message);
     }

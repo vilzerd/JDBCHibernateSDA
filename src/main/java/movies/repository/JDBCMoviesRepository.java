@@ -1,12 +1,14 @@
 package movies.repository;
 
+import movies.exceptions.MovieServiceException;
 import movies.model.Movie;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class JDBCMoviesRepository {
+public class JDBCMoviesRepository implements MovieRepository {
 
     private Connection connection;
     private static final String DB_URL = "jdbc:mysql://localhost:3306/movies";
@@ -23,13 +25,14 @@ public class JDBCMoviesRepository {
 
     private static final String INSERT_MOVIE_SQL = "INSERT INTO movies VALUES (0,?,?,?,?);";
     private static final String SELECT_ALL_MOVIES_SQL = "SELECT * FROM movies;";
+    private static final String SQL_PROBLEM_MESSAGE = "SQL problem with JDBC";
 
-    public JDBCMoviesRepository() {
+    public JDBCMoviesRepository() throws MovieServiceException {
         try {
             initConnection();
             initTable();
         } catch (SQLException e) {
-            System.out.println("Database failed");
+            throw new MovieServiceException(SQL_PROBLEM_MESSAGE);
         }
     }
 
@@ -42,16 +45,21 @@ public class JDBCMoviesRepository {
         statement.execute();
     }
 
-    public void save(Movie movie) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(INSERT_MOVIE_SQL);
-        statement.setString(1, movie.getTitle());
-        statement.setInt(2, movie.getPremiereYear());
-        statement.setString(3, movie.getGenre());
-        statement.setInt(4, movie.getRate());
-        statement.execute();
+    public void save(Movie movie) throws MovieServiceException {
+        try {
+            PreparedStatement statement = connection.prepareStatement(INSERT_MOVIE_SQL);
+            statement.setString(1, movie.getTitle());
+            statement.setInt(2, movie.getPremiereYear());
+            statement.setString(3, movie.getGenre());
+            statement.setInt(4, movie.getRate());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new MovieServiceException(SQL_PROBLEM_MESSAGE);
+        }
     }
 
-    public List<Movie> findAllMovies() throws SQLException {
+    public List<Movie> findAllMovies() throws MovieServiceException {
+        try {
         List<Movie> movies = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(SELECT_ALL_MOVIES_SQL);
         ResultSet resultSet = statement.executeQuery();
@@ -63,12 +71,21 @@ public class JDBCMoviesRepository {
             int rate = resultSet.getInt(5);
             Movie movie = new Movie(id, title, year, genre, rate);
             movies.add(movie);
+            return movies;
         }
-        return movies;
+        } catch (SQLException e) {
+            throw new MovieServiceException(SQL_PROBLEM_MESSAGE);
+        }
+       return Collections.emptyList();
     }
 
-    public void closeAllResources() throws SQLException {
-        connection.close();
+    public void closeAllResources() throws MovieServiceException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new MovieServiceException(SQL_PROBLEM_MESSAGE);
+
+        }
     }
 
 }

@@ -12,7 +12,12 @@ public abstract class Controller {
 
     private boolean running = true;
     //    only one service on controller (one private field!)
-    private MovieService movieService = new MovieService();
+    private MovieService movieService;
+
+    public Controller(MovieService movieService) {
+        this.movieService = movieService;
+    }
+
     private static final String OPTIONS = """
             Choose one from the options:
             1. Add new movie
@@ -33,14 +38,12 @@ public abstract class Controller {
     private void handleOption(int input) {
         try {
             executeOption(input);
-        } catch (SQLException e) {
-            showMessage("Database query error");
         } catch (MovieServiceException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void executeOption(int input) throws SQLException, MovieServiceException {
+    private void executeOption(int input) throws MovieServiceException {
         switch (input) {
             case 1:
                 addMovie();
@@ -54,12 +57,12 @@ public abstract class Controller {
         }
     }
 
-    private void addMovie() throws SQLException, MovieServiceException {
+    private void addMovie() throws MovieServiceException {
         Movie movie = readMovieData();
         movieService.save(movie);
     }
 
-    private void showMovies() throws SQLException {
+    private void showMovies() throws MovieServiceException {
         List<Movie> movies = movieService.findAllMovies();
         displayMovies(movies);
     }
@@ -80,7 +83,7 @@ public abstract class Controller {
         showMessage(allMovies);
     }
 
-    private void finish() throws SQLException {
+    private void finish() throws MovieServiceException {
         showMessage("End");
         running = false;
         movieService.closeAllResources();

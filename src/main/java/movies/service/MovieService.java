@@ -2,15 +2,19 @@ package movies.service;
 
 import movies.exceptions.MovieServiceException;
 import movies.model.Movie;
-import movies.repository.JDBCMoviesRepository;
+import movies.repository.MovieRepository;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class MovieService {
-    private JDBCMoviesRepository repository = new JDBCMoviesRepository();
+    private MovieRepository repository;
 
-    public void save(Movie movie) throws SQLException, MovieServiceException {
+    public MovieService(MovieRepository repository) { //dependency injection
+        this.repository = repository;
+    }
+
+    public void save(Movie movie) throws MovieServiceException {
         if (movie.getPremiereYear() < 1895 || movie.getPremiereYear() > 2025) {
 //          Wyjątek może zastępować return
             throw new MovieServiceException("Unreal release date given. Should be a range: 1895 - 2025.");
@@ -18,11 +22,11 @@ public class MovieService {
         repository.save(movie);
     }
 
-    public List<Movie> findAllMovies() throws SQLException {
+    public List<Movie> findAllMovies() throws MovieServiceException {
         return repository.findAllMovies();
     }
 
-    public void closeAllResources() throws SQLException {
+    public void closeAllResources() throws MovieServiceException {
         repository.closeAllResources();
     }
 }

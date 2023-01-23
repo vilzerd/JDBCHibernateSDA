@@ -1,8 +1,14 @@
 package movies.controller;
 
+import movies.service.MovieService;
+
 import javax.swing.*;
 
 public class GuiController extends Controller {
+    public GuiController(MovieService movieService) {
+        super(movieService);
+    }
+
     void showMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
