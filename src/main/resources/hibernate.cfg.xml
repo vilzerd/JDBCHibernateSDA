@@ -3,7 +3,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!--        Allows to automatically build a database schema-->
+        <!-- Allows to automatically build a database schema-->
         <property name="hbm2ddl.auto">update</property>
 
         <!-- JDBC Database connection settings -->
