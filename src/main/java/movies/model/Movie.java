@@ -50,6 +50,10 @@ public class Movie {
         return rate;
     }
 
+    public void setYear(int year) {
+        premiereYear = year;
+    }
+
     @Override
     public String toString() {
         return  "Movie{id=" + id +
